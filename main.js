@@ -1,23 +1,21 @@
-var banner = $("#banner-message")
-var button = $("button")
-var intialRankInput = $("#initialRank")
-var initialStarsInput = $("#initialStars")
-var gamesPlayedInput = $("#gamesPlayed")
-var iterationsInput = $("#iterations")
+$(document).ready(function() {
+  $("button").click(function(){
+        alert("The paragraph was clicked.");
+    });
 
-// handle click and add class
-button.on("click", function() {
-  console.log("TEST");
-  
-})
+  $("#playButton").click(function() {
+    console.log("TEST");
+    runExperiment();
+  });
+});
 
 function runExperiment() {
-  var results;
-  for (i = 0; i < iterationsInput.val(); i++) {
+  var results = new Array(25).fill().map(()=>new Array(6).fill(0));
+  for (i = 0; i < $("#iterations").val(); i++) {
     var rankStarsPair = runSimulation(
-        intialRankInput.val(),
-        initialStarsInput.val(),
-        gamesPlayedInput.val());
+        $("#initialRank").val(),
+        $("#initialStars").val(),
+        $("#gamesPlayed").val());
     results[rankStarsPair[0]][rankStarsPair[1]]++;
   }
   
@@ -34,7 +32,7 @@ function runSimulation(rank, stars, gamesPlayed) {
   var consecutiveWins = 0;
   //if (rank % 5) console.log(rank % 5);
   console.log("gamesPlayed = "+ gamesPlayed + "rank = " + rank + "stars = " + stars);
-  for (i = 0; i < gamesPlayed || rank == 0; i++) {
+  for (i = 0; i < gamesPlayed && rank != 0; i++) {
     var isGameWon = playGame();
     if (isGameWon) {
       consecutiveWins++;
